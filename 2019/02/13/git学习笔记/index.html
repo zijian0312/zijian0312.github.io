@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> git学习笔记 · zijian's blog</title><meta name="description" content="git学习笔记 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">git学习笔记</h1><div class="post-info">Feb 13, 2019</div><div class="post-content"><h2 id="git-配置"><a href="#git-配置" class="headerlink" title="git 配置"></a>git 配置</h2><h4 id="配置个人用户名和email"><a href="#配置个人用户名和email" class="headerlink" title="配置个人用户名和email"></a>配置个人用户名和email</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"xxx"</span></span><br><span class="line">git config --global user.email xxx@qq.com</span><br></pre></td></tr></table></figure>
+<p>如果用了<code>--global</code>选项，那么更改的配置文件就在用户主目录下，以后所有的项目都默认使用该配置。</p>
+<p>如果要在某个特定的项目中使用其他名字和电邮，只有去掉<code>--global</code>选项重新配置即可，<br>新的设定保存在当前项目的<code>.git/config</code>文件里。</p>
+<h4 id="查看配置信息"><a href="#查看配置信息" class="headerlink" title="查看配置信息"></a>查看配置信息</h4><p><code>git config --list</code></p>
+<p>有时候会看到重复的变量名，那就说明它们来自不同的配置文件（比如 /etc/gitconfig 和 ～/.gitconfig），不过最终 Git 实际采用的是最后一个。</p>
+<p>查阅某个环境变量的设定，只要把特定的名字跟在后面即可。如：<br><code>git config user.name</code></p>
+<h2 id="git-工作流程"><a href="#git-工作流程" class="headerlink" title="git 工作流程"></a>git 工作流程</h2><p><img src="https://studentssolano-my.sharepoint.com/personal/slew3_students_solano_edu/_layouts/15/download.aspx?share=ERuwEdUVll1Do1UqAT8uaCQBalBzrX5VcDbIizHyDD4fcw&amp;ext=.png" alt="git工作流程"></p>
+<h2 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h2><p><strong>git reset HEAD</strong>: 暂存区的目录树会被重写，被 master 分支指向的目录树所替换。<em>工作区不受影响。</em></p>
+<p><strong>git rm –cached <file></file></strong>: 直接从暂存区删除文件，工作区则不做出改变。</p>
+<p><strong>git checkout .” 或者 “git checkout – <file></file></strong><br>用暂存区全部或指定的文件替换工作区的文件。<br>这个操作很危险，会清除工作区中未添加到暂存区的改动。</p>
+<p><strong>git checkout HEAD .” 或者 “git checkout HEAD <file></file></strong><br>会用 HEAD 指向的 master 分支中的全部或者部分文件替换暂存区和以及工作区中的文件。<br>这个命令也是极具危险性的，因为不但会清除工作区中未提交的改动，也会清除暂存区中未提交的改动。</p>
+<h4 id="git-创建仓库"><a href="#git-创建仓库" class="headerlink" title="git 创建仓库"></a>git 创建仓库</h4><p>在指定目录下创建仓库 <code>git init</code><br>以指定目录作为仓库 <code>git init repo</code></p>
+<h4 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h4><p>使用 <code>git clone</code> 拷贝一个 Git 仓库到本地<br>默认情况下，Git 会按照你提供的 URL 所指示的项目的名称创建你的本地项目目录。<br>如果你想要一个不一样的名字， 你可以在该命令后加上你想要的名称。</p>
+<h4 id="git-add-file"><a href="#git-add-file" class="headerlink" title="git add file"></a>git add file</h4><p><code>git add</code> 命令可将该文件添加到缓存。</p>
+<h4 id="git-add"><a href="#git-add" class="headerlink" title="git add ."></a>git add .</h4><p>添加所有修改文件到缓存。</p>
+<h4 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h4><p>查看项目的当前状态。使用-s 参数以获得简要结果。</p>
+<h4 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h4><p>执行 <code>git diff</code> 来查看执行 <code>git status</code> 的结果的详细信息。<br><code>git diff</code> 命令显示已写入缓存与已修改但尚未写入缓存的改动的区别。</p>
+<ul>
+<li>尚未缓存的改动： <code>git diff</code></li>
+<li>查看已缓存的改动： <code>git diff ­­cached</code></li>
+<li>查看已缓存的与未缓存的所有改动： <code>git diff HEAD</code></li>
+<li>显示摘要而非整个 diff： <code>git diff ­­stat</code></li>
+</ul>
+<h4 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h4><p>使用 <code>git add</code> 命令将想要快照的内容写入缓存区， 而执行 <code>git commit</code> 将缓存区内容添加到仓库中。<br>Git 为你的每一个提交都记录你的名字与电子邮箱地址，所以第一步需要配置用户名和邮箱地址。</p>
+<p><code>git commit ­-a</code>或者<code>git commit -am &#39;修改txt文件&#39;</code>，跳过<code>git add</code>提交缓存的过程。</p>
+<h4 id="git-reset-HEAD-–file"><a href="#git-reset-HEAD-–file" class="headerlink" title="git reset HEAD –file"></a>git reset HEAD –file</h4><p>取消其中一个文件的缓存。</p>
+<h4 id="git-rm"><a href="#git-rm" class="headerlink" title="git rm"></a>git rm</h4><p><code>git rm</code> 会将条目从缓存区中移除。这与 <code>git reset HEAD</code> 将条目取消缓存是有区别的。 <strong>取消缓存</strong>的意思就是将缓存区恢复为我们做出修改之前的样子。<br>默认情况下，<code>git rm file</code> 会将文件从缓存区和你的硬盘中（工作目录）删除。<br>如果你要在工作目录中留着该文件，可以使用 <code>git rm --cached file</code>。</p>
+<h4 id="git-mv"><a href="#git-mv" class="headerlink" title="git mv"></a>git mv</h4><p><code>git mv</code>  有三个操作，</p>
+<ol>
+<li><code>git rm --cached file</code></li>
+<li>修改文件名。</li>
+<li><code>git add file</code></li>
+</ol>
+<h2 id="git分支管理"><a href="#git分支管理" class="headerlink" title="git分支管理"></a>git分支管理</h2><p>几乎每一种版本控制系统都以某种形式支持分支。使用分支意味着你可以从开发主线上分离开来，然后在不影响主线的同时继续工作。</p>
+<h4 id="git-branch-分支名"><a href="#git-branch-分支名" class="headerlink" title="git branch 分支名"></a>git branch 分支名</h4><p>创建分支。</p>
+<h4 id="git-checkout-分支名"><a href="#git-checkout-分支名" class="headerlink" title="git checkout 分支名"></a>git checkout 分支名</h4><p>切换分支。<br>当你切换分支的时候，Git 会用该分支的最后提交的快照替换你的工作目录的内容， 所以多个分支不需要多个目录。</p>
+<h4 id="git-merge-合并分支"><a href="#git-merge-合并分支" class="headerlink" title="git merge 合并分支"></a>git merge 合并分支</h4><p>你可以多次合并到统一分支， 也可以选择在合并之后直接删除被并入的分支。</p>
+<h4 id="git-branch"><a href="#git-branch" class="headerlink" title="git branch"></a>git branch</h4><p>列出分支。</p>
+<div class="tip"><br>    当你以此方式在上次提交更新之后创建了新分支，如果后来又有更新提交， 然后又切换到了”testing”分支，Git 将还原你的工作目录到你创建分支时候的样子。<br></div>
+
+<h4 id="git-checkout-b-分支名"><a href="#git-checkout-b-分支名" class="headerlink" title="git checkout -b 分支名"></a>git checkout -b 分支名</h4><p>创建分支并切换到该分支。</p>
+<h4 id="git-branch-d-分支名"><a href="#git-branch-d-分支名" class="headerlink" title="git branch -d 分支名"></a>git branch -d 分支名</h4><p>删除分支。</p>
+<h4 id="git-merge-分支名"><a href="#git-merge-分支名" class="headerlink" title="git merge 分支名"></a>git merge 分支名</h4><p>将指定分支合并到当前分支。</p>
+<h4 id="合并冲突"><a href="#合并冲突" class="headerlink" title="合并冲突"></a>合并冲突</h4><p>合并后的冲突会在文件中显示，需要手动修改。</p>
+<h2 id="git-查看提交历史"><a href="#git-查看提交历史" class="headerlink" title="git 查看提交历史"></a>git 查看提交历史</h2><p><code>git log</code> 列出历史提交记录<br><code>git log --oneline</code> 查看历史记录的简洁版本。<br><code>git log --oneline --graph</code>  使用拓扑图来查看历史记录。<br><code>git log --reverse --oneline</code> 使用<code>--reverse</code>参数逆向显示所有日志。<br><code>git log --author=zhangsan --oneline -5</code> 查看指定用户提交的日志， -5表示输出行数。</p>
+<p>如果你要指定日期，可以执行几个选项：<code>--since</code> 和 <code>--before</code>，但是你也可以用 <code>--until</code> 和 <code>--after</code>。</p>
+<p>例如：查看三周前且在十月十八日之后的提交<br><code>git log --oneline --before{3.weeks.ago} --after={2018-10-18} --no-merges</code><br><em>–no-merges选项可以隐藏合并提交。</em></p>
+<h2 id="git-标签"><a href="#git-标签" class="headerlink" title="git　标签"></a>git　标签</h2><p><code>git tag -a v1.0</code> 给最新一次提交打上“v1.0”的标签。<br><code>-a</code>选项意为<strong>创建一个带注解的标签</strong>。不用 -a 选项也可以执行，但是不会记录标签的详细信息。<br><strong>推荐使用带注解的标签。</strong></p>
+<p><code>git log --decorate</code> 可以看到建立的标签。<br><code>git tag -a v0.9 85fc7e7</code> 给某一次提交追加标签。<br><code>git tag</code> 查看所有标签<br><code>git tag -a 标签名 -m &quot;message&quot;</code> 指定标签信息<br><code>git tag -s 标签名 -m &quot;message&quot;</code> PGP签名标签</p>
+<h4 id="git-tag-d-v1-0"><a href="#git-tag-d-v1-0" class="headerlink" title="git tag -d v1.0"></a>git tag -d v1.0</h4><p>删除标签。</p>
+<h2 id="git-远程仓库"><a href="#git-远程仓库" class="headerlink" title="git 远程仓库"></a>git 远程仓库</h2><h4 id="第一次提交到远程仓库"><a href="#第一次提交到远程仓库" class="headerlink" title="第一次提交到远程仓库"></a>第一次提交到远程仓库</h4><ol>
+<li>在github上新建一个公共或私有仓库，可以先不用创建README文件。</li>
+<li>在本地目录编辑好README文件和要创建的代码文件后，按github上的<br> 提示完成初始化和第一次提交工作。</li>
+<li>此时，本地文件已上传至github仓库。</li>
+</ol>
+<p><code>git remote</code>  查看当前配置的远程仓库。<br><code>git remote -v</code> 可以看到每个别名的实际地址。</p>
+<h4 id="提取远程仓库"><a href="#提取远程仓库" class="headerlink" title="提取远程仓库"></a>提取远程仓库</h4><p>Git有两个命令用来提取远程仓库的更新。</p>
+<ol>
+<li><p>从远程仓库下载新分支与数据：</p>
+<p>  <code>git fetch</code>，然后<code>git merge</code> 远程分支到所在分支。</p>
+</li>
+<li><p>从远程仓库提取数据并合并到当前分支：</p>
+<p>  <code>git pull</code></p>
+</li>
+</ol>
+<h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><p><code>git push [alias] [branch]</code><br>将branch 分支推送成为远程仓库的branch分支。</p>
+<h4 id="删除远程仓库"><a href="#删除远程仓库" class="headerlink" title="删除远程仓库"></a>删除远程仓库</h4><p><code>git remote rm [alias]</code></p>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h5 id="忽略某些文件和文件夹的提交"><a href="#忽略某些文件和文件夹的提交" class="headerlink" title="忽略某些文件和文件夹的提交"></a>忽略某些文件和文件夹的提交</h5><ol>
+<li><p>命令方法<br> 在仓库中创建隐藏文件 <code>.gitignore</code><br> 添加要忽略的文件或文件夹，如：<br> /target/<br> *.project<br> *.iml</p>
+</li>
+<li><p>修改编辑器git插件，添加要过滤的文件。<br> 该方法只能保证文件提交过滤，远程仓库不会。</p>
+</li>
+</ol>
+<h4 id="删除github上多余的文件夹"><a href="#删除github上多余的文件夹" class="headerlink" title="删除github上多余的文件夹"></a>删除github上多余的文件夹</h4><ol>
+<li><code>git pull origin master</code></li>
+<li><code>dir</code></li>
+<li><code>git rm -r --cached target</code></li>
+<li><code>git commit -m &#39;删除了target&#39;</code></li>
+<li><code>git push -u origin master</code></li>
+</ol>
+</div><div class="post-tag"><a href="/tags/git/">#git</a></div></article></div></main><footer><div class="paginator"><a href="/2019/04/13/hello-world/" class="prev">PREV</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
