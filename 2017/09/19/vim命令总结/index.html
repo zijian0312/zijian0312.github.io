@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> vim命令总结 · zijian's blog</title><meta name="description" content="vim命令总结 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">vim命令总结</h1><div class="post-info">Sep 19, 2017</div><div class="post-content"><h1 id="Vim的使用"><a href="#Vim的使用" class="headerlink" title="Vim的使用"></a>Vim的使用</h1><p>vim共分为三种模式，分别是<strong>命令模式</strong>、<strong>插入模式</strong>和<strong>底线命令模式</strong>。</p>
+<h1 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h1><p>此状态下敲击键盘的动作会被Vim识别为命令。</p>
+<ul>
+<li><code>i</code>切换到插入模式。</li>
+<li><code>x</code>删除当前光标所在处的字符。</li>
+<li><code>:</code>切换到底线命令模式，以在最底一行插入命令。</li>
+</ul>
+<h1 id="插入模式"><a href="#插入模式" class="headerlink" title="插入模式"></a>插入模式</h1><p>在命令模式下按下<code>i/a</code>就进入了输入模式。<br>按<kdb>ESC</kdb>退出输入模式，切换到命令模式。</p>
+<h1 id="底线命令模式"><a href="#底线命令模式" class="headerlink" title="底线命令模式"></a>底线命令模式</h1><p>在命令模式下输入<code>:</code>进入底线命令模式。</p>
+<p>基本命令有：</p>
+<ul>
+<li><code>q</code>退出程序</li>
+<li><code>w</code>保存文件</li>
+<li><code>wq</code>保存并退出文件</li>
+</ul>
+<blockquote>
+<p>在<code>q</code>、<code>w</code>和<code>wq</code>后加<code>!</code>表示强制执行</p>
+</blockquote>
+<p><code>:w filename</code> 将文档另存</p>
+<h1 id="vim按键说明"><a href="#vim按键说明" class="headerlink" title="vim按键说明"></a>vim按键说明</h1><p><code>h</code> 光标左移一个字符<br><code>j</code> 光标下移一个字符<br><code>k</code> 光标上移一个字符<br><code>l</code> 光标右移一个字符</p>
+<p><code>ctrl-f</code> 向下翻页<br><code>ctrl-b</code> 向上翻页<br><code>ctrl-d</code> 向下移动半页<br><code>ctrl-u</code> 向上移动半页</p>
+<p><code>+</code> 光标移动到非空格符的下一行<br><code>-</code> 光标移动到非空格符的上一行</p>
+<p><code>0</code> 光标移动到这一行的最前面<br><code>$</code> 光标移动到这一行的最后面</p>
+<p><code>H</code> 光标移动到屏幕最上方的最前面<br><code>M</code> 光标移动到屏幕中间那一行的第一个字符<br><code>L</code> 光标移动到屏幕的最下方的第一个字符<br><code>G</code> 移动到这个文件的最后一行<br><code>gg</code> 移动到这个档案的第一行</p>
+<p><code>/word</code> 向光标之下寻找一个名称为word的字符串<br><code>?word</code> 向光标之上寻找<br><code>n</code> 向下继续寻找word字符串<br><code>N</code> 反向继续寻找word字符串</p>
+<p><code>x,X</code> 向前或向后删除一个字符<br><code>nx</code> 连续删除n个字符<br><code>dd</code> 删除游标所在的一整行<br><code>d$</code> 删除游标所在处到最后一个字符<br><code>d0</code> 删除游标所在处到第一个字符<br><code>yy</code> 复制游标所在的那一行<br><code>nyy</code> 向下复制n行<br><code>p,P</code> 在下一行或上一行粘贴复制的数据</p>
+<p><code>J</code> 将光标所在行与下一行合并成一行</p>
+<p><code>c</code> 重复删除多个数据</p>
+<p><code>ctrl-r</code> 复原上一个动作</p>
+<p><code>.</code> 重复前一个动作</p>
+</div><div class="post-tag"><a href="/tags/linux/">#linux</a></div></article></div></main><footer><div class="paginator"><a href="/2017/09/19/MongoDB使用总结/" class="prev">PREV</a><a href="/2017/09/19/Java爬虫总结/" class="next">NEXT</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

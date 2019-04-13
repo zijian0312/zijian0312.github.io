@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> python动态类型和内存管理 · zijian's blog</title><meta name="description" content="python动态类型和内存管理 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">python动态类型和内存管理</h1><div class="post-info">Feb 12, 2019</div><div class="post-content"><h2 id="动态类型"><a href="#动态类型" class="headerlink" title="动态类型"></a>动态类型</h2><p>动态类型是Python的其中一个核心概念。<br>Python中常见的对象包括各种数字，字符串，表，字典。<br>对象是储存在内存中的实体。我们不能直接接触到该对象，我们在程序中写的对象名，只是指向这一对象的引用。</p>
+<p><strong>引用和对象分离</strong>， 是动态类型的核心。引用可以随时指向一个新对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">3</span> //引用a指向对象<span class="number">3</span></span><br><span class="line">a = <span class="string">'hello'</span> // 引用a指向字符串对象“hello”</span><br></pre></td></tr></table></figure>
+<p>由于对象3不再有引用指向它，Python会自动将没有引用指向的对象销毁，释放相应内存。</p>
+<div class="tip"><br>    对于小的整数和短字符串，Python会缓存这些对象，而不是频繁的建立和销毁。<br></div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">5</span></span><br><span class="line">b = a</span><br><span class="line">a = a + <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>前两个行，引用a,b指向同一个对象5（b = a 是让引用b指向引用a所指得那个对象）。<br>第三行是让a指向一个新对象7。此时a和b分别指向不同的对象。</p>
+<div class="tip"><br>    即使是多个引用指向同一个对象，如果一个引用值发生变化，那么实际上是让这个引用指向一个新的引用，并不影响其他的引用的指向。<br></div>
+
+<p><strong>但要注意以下情况：</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">L1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">L2 = L1</span><br><span class="line">L1[<span class="number">0</span>] = <span class="number">10</span></span><br><span class="line">print(L2)</span><br></pre></td></tr></table></figure></p>
+<p>在这种情况下，我们不对L1的引用赋值，而是L1所指的元素赋值，结果L2同时发生变化。</p>
+<p>因为，列表是包含了多个引用的对象，每个元素就是一个引用，每个引用指向一个对象。<br>而L1[0]这一赋值操作并不是改变L1指向，而是列表的其中一个元素进行操作，所以所有指向该对象的引用都受到影响。</p>
+<p>与此不同的是，之前的操作都没有对对象的自身发生作用，只是改变引用指向。</p>
+<blockquote>
+</blockquote>
+<p><em>列表可以通过引用其元素，改变对象自身，这种对象类型，称为<code>可变数据对象</code>，字典也是可变数据对象。<br>而数字和字符串，不能改变对象本身，只能改变引用的指向，称为<code>不可变数据对象</code>。元祖虽然可以调用引用元素，但是不可以赋值，不能改变对象自身，所以也是不可变数据对象。</em></p>
+<h4 id="函数的参数传递"><a href="#函数的参数传递" class="headerlink" title="函数的参数传递"></a>函数的参数传递</h4><p>函数的参数传递本质上是引用的传递。</p>
+<ul>
+<li>如果参数是不可变对象，对参数的操作不会影响引用。</li>
+<li>如果参数是可变对象，那么改变函数参数，有可能会改变原对象。所有指向原对象的引用都会受影响。</li>
+</ul>
+<blockquote>
+</blockquote>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>内存管理是决定编程语言性能的重要因素。无论是c语言的手工管理，还是Java的垃圾回收，都是编程语言最重要的特征。</p>
+<h4 id="对象的内存使用"><a href="#对象的内存使用" class="headerlink" title="对象的内存使用"></a>对象的内存使用</h4><p>为探索对象在内存的存储，可以使用Python内置函数<code>id()</code>,它用于返回对象的身份——即对象的内存地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">1</span></span><br><span class="line">print(id(a)) <span class="comment"># 以我的计算机为例： 8791506858832</span></span><br><span class="line">print(hex(id(a))) <span class="comment"># 十六进制： 0x7feeea4b350</span></span><br><span class="line"></span><br><span class="line">b = <span class="number">1</span></span><br><span class="line">print(id(b)) <span class="comment"># 8791506858832</span></span><br></pre></td></tr></table></figure>
+<p>由于之前说过，Python会缓存那些整数和短小字符串的对象，以便重复使用。</p>
+<p>当创建多个为1的引用时，实际上是让所有这些引用指向同一个对象。</p>
+<p>为了检验两个引用是否指向同一个对象，可以用<code>is</code>关键字。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">1</span></span><br><span class="line">b = <span class="number">1</span></span><br><span class="line">print(a <span class="keyword">is</span> b) <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">a = <span class="string">'hello'</span></span><br><span class="line">b = <span class="string">'hello'</span></span><br><span class="line">print(a <span class="keyword">is</span> b) <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">a = []</span><br><span class="line">b = []</span><br><span class="line">print(a <span class="keyword">is</span> b) <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+<p>在Python中，每个对象都有指向该对象的引用总数，即引用计数。</p>
+<p>我们可以使用<code>getrefcount()</code>来查看某个对象的引用计数。</p>
+<div class="tip"><br>    当使用某个引用作为参数，传递给getrefcount()时，参数实际上创建了一个临时的引用。因此，getrefcount()所得到的结果，会比期望的多1。<br></div>
+
+
+<h4 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h4><p>垃圾回收的基本原理是，当Python的某个对象的引用计数为0时，说明没有任何引用指向该对象。该对象就应该被垃圾回收。</p>
+<p>然而，垃圾回收是个昂贵而费力的事情。垃圾回收时，Python不能进行其他任务。频繁的垃圾回收将大大降低Python的工作效率。如果内存中的对象太多，就没必要启动垃圾回收机制。<br>所以，Python只在特定条件下才会启动垃圾回收。</p>
+<blockquote>
+<p>当Python运行时，会记录其中分配对象和取消分配对象的次数。当两者的差值高于某个阈值时，垃圾回收才会启动。</p>
+</blockquote>
+<p>可通过<code>gc</code>模块的<code>get_threshold()</code>方法，查看该阈值：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br><span class="line">print(gc.get_threshold()) <span class="comment"># (700, 10, 10)</span></span><br></pre></td></tr></table></figure></p>
+<p>700为垃圾回收的阈值，后面两个10是与分代回收相关的阈值。<br>可以通过gc中的<code>set_threshold()</code>方法重新设置。</p>
+<p><strong>我们也可以手动启动垃圾回收,使用<code>gc.collect()</code>。</strong></p>
+<h4 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h4><p>Python同时采用分代回收策略。这一策略的基本假设是，存活时间越久的对象，越不可能在后面的程序中变成垃圾。我们的程序往往会产生大量的对象，许多对象很快产生和消失，但也有一些对象长期被使用。出于信任和效率，对于这样一些“长寿”对象，我们相信它们的用处，所以减少在垃圾回收中扫描它们的频率。</p>
+<p>Python将所有的对象分为0，1，2三代。所有的新建对象都是0代对象。当某一代对象经历过垃圾回收，依然存活，那么它就被归入下一代对象。垃圾回收启动时，一定会扫描所有的0代对象。如果0代经过一定次数垃圾回收，那么就启动对0代和1代的扫描清理。当1代也经历了一定次数的垃圾回收后，那么会启动对0，1，2，即对所有对象进行扫描。</p>
+<p>这两个次数即上面get_threshold()返回的(700, 10, 10)返回的两个10。也就是说，每10次0代垃圾回收，会配合1次1代的垃圾回收；而每10次1代的垃圾回收，才会有1次的2代垃圾回收。</p>
+<p>同样可以用set_threshold()来调整，比如对2代对象进行更频繁的扫描。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br><span class="line">gc.set_threshold(<span class="number">700</span>, <span class="number">10</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="引用环"><a href="#引用环" class="headerlink" title="引用环"></a>引用环</h4><p>两个对象相互引用，可构成引用环。<br>同时，一个对象引用自己，也可以构成引用环。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> getrefcount</span><br><span class="line"></span><br><span class="line">a = []</span><br><span class="line">b = [a]</span><br><span class="line">a.append(b)</span><br><span class="line"></span><br><span class="line">a = []</span><br><span class="line">a.append(a)</span><br><span class="line">print(getrefcount(a)) <span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
+<p>引用环会给垃圾回收机制带来很多的麻烦。这些引用环可能构成无法使用，但引用计数不为0的一些对象。这些对象不能被垃圾回收。</p>
+<p>为了回收这些<strong>孤立的引用环</strong>，Python复制每个对象的引用计数，可以记为gc_ref。假设，每个对象i，该计数为gc_ref_i。<br>Python会遍历所有的对象i。对于每个对象i引用的对象j，将相应的gc_ref_j减1。</p>
+<p>在结束遍历后，gc_ref不为0的对象，和这些对象引用的对象，以及继续更下游引用的对象，需要被保留。而其它的对象则被垃圾回收。</p>
+</div><div class="post-tag"><a href="/tags/python/">#python</a></div></article></div></main><footer><div class="paginator"><a href="/2019/02/13/git学习笔记/" class="prev">PREV</a><a href="/2019/02/12/sublime_text3快捷键/" class="next">NEXT</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

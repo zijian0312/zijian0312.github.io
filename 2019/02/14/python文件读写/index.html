@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> python文件读写 · zijian's blog</title><meta name="description" content="python文件读写 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">python文件读写</h1><div class="post-info">Feb 14, 2019</div><div class="post-content"><h2 id="python文本读写"><a href="#python文本读写" class="headerlink" title="python文本读写"></a>python文本读写</h2><h4 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'test.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<p><code>open()</code>方法返回一个文件对象，它是可迭代的。<br>如果文件不存在，open()方法就会抛出一个<code>IOError</code>错误。</p>
+<p><em>文件使用完毕后必须关闭，因为文件对象会占用操作系统资源，并且操作系统同一时间打开的文件数量是有限的。</em></p>
+<p>由于文件读写可能产生IOError，一旦出错，后面的f.close()就不会调用。<br>为了保证是否出错都能正确关闭文件，我们可以使用<code>try...finally</code>来实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = open(<span class="string">'/dir/test.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">    print(f.read())</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">if</span> f:</span><br><span class="line">        f.close()</span><br></pre></td></tr></table></figure>
+<p>如果每次都这样写实在太繁琐，所以，Python引入了with语句来自动调用close()方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'dir/test.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(f.read())</span><br></pre></td></tr></table></figure>
+<p>Python文件对象提供了三种方式来读文件：</p>
+<ul>
+<li><code>read()</code> 每次读取整个文件，通常将文件内容放到一个字符串变量中。如果文件大于可用内存，可以反复调用<code>read(size)</code>方法，限制每次读取的字节数量。</li>
+<li><code>readlines()</code>一次读取整个文件，并自动将内容拆分成一行行的列表。</li>
+<li><code>readline()</code>每次读取一行，通常比<code>readlines()</code>慢得多。仅当没有足够内存时使用该方法。</li>
+</ul>
+<div class="tip"><br>    这三种方法把每行末尾的<code>\n</code>也读进来了，所以需要我们手动去掉。<br></div>
+
+<h4 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'test.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">f.write(<span class="string">'hello'</span>)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用with语句</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'test.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(<span class="string">'hello'</span>)</span><br></pre></td></tr></table></figure>
+<p>写文件的两种方式：</p>
+<ul>
+<li>write()和read()、readlines()方法对应，将字符串写入到文件中。</li>
+<li>writelines()和readlines()方法对应，它接收一个字符串列表作为参数。换行符需要自己手动添加。</li>
+</ul>
+<h4 id="关于open-的mode参数"><a href="#关于open-的mode参数" class="headerlink" title="关于open()的mode参数"></a>关于open()的mode参数</h4><ul>
+<li><strong><code>r</code></strong>: 读，文件不存在就报错</li>
+<li><strong><code>w</code></strong>: 写，文件存在就清空，不存在就创建</li>
+<li><strong><code>a</code></strong>: 追加，文件不存在就创建</li>
+<li><strong><code>r+</code></strong>: 等于<code>r+w</code>,可读可写，文件不存在就报错</li>
+<li><strong><code>w+</code></strong>: 等于<code>w+r</code>,可读可写，文件不存在就创建</li>
+<li><strong><code>a+</code></strong>: 等于<code>a+r</code>,可追加可写，文件不存在就创建<br>如果是二进制文件，就在后面加一个<code>b</code>。</li>
+</ul>
+<h4 id="移动文件指针"><a href="#移动文件指针" class="headerlink" title="移动文件指针"></a>移动文件指针</h4><p><strong><code>file_obj.seek(offset, whence=0)</code></strong><br>该方法用来在文件中移动文件指针。offset表示偏移多少。<br>可选参数whence表示从哪里开始偏移。默认0为开头，1为当前位置，2为文件尾部。</p>
+<div class="tip"><br>    文件指针的改变只是作用于<code>r</code>，对于<code>w</code>和<code>b</code>不会起作用。<br></div>
+
+<h4 id="字符串编码"><a href="#字符串编码" class="headerlink" title="字符串编码"></a>字符串编码</h4><p>要读取非<code>UTF-8</code>编码的文本文件，需要给open()方法传输e<code>ncoding</code>参数。例如读取GBK编码文件：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'test.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'gbk'</span>)</span><br><span class="line">f.read()</span><br></pre></td></tr></table></figure></p>
+<p>如果遇到编码不规范的文件，可能会出现<code>UnicodeDecodeError</code>，因为文本中夹杂了非法编码的字符。<br>针对这种情况，最简单的方式是直接忽略：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'test.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'gbk'</span>, errors=<span class="string">'ignore'</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="python配置文件读写"><a href="#python配置文件读写" class="headerlink" title="python配置文件读写"></a>python配置文件读写</h2><p>Python中关于配置文件的读写，可以直接使用<code>configparser</code>模块。</p>
+<p>配置文件<code>cfg.ini</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[logging]</span><br><span class="line">type = INFO</span><br><span class="line">path = &apos;logs//&apos;</span><br><span class="line"></span><br><span class="line">[redis]</span><br><span class="line">host = 127.0.0.1</span><br><span class="line">port = 6379</span><br><span class="line">password = 123456</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件的读取"><a href="#配置文件的读取" class="headerlink" title="配置文件的读取"></a>配置文件的读取</h4><ul>
+<li><code>read(filename)</code> 读取配置文件</li>
+<li><code>sections()</code> 获取所有sections，以列表形式返回[‘logging’, ‘redis’]</li>
+<li><code>options(setctions)</code> 获取指定sections下所有options，以列表形式返回[‘host’, ‘port’, ‘password’]</li>
+<li><code>items(sections)</code> 获取指定section下所有的键值对，[(‘host’, ‘127.0.0.1’), (‘port’, ‘6379’), (‘password’, ‘123456’)]</li>
+<li><code>get(sections, option)</code> 获取指定section中option的值，返回str类型</li>
+<li><code>getint(section, option)</code> 返回int类型</li>
+<li><code>getfloat(section, option)</code> 返回float类型</li>
+<li><code>getboolean(section, option)</code> 返回boolean类型</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> configparser</span><br><span class="line">config = configparser.ConfigParser()</span><br><span class="line">config.read(<span class="string">'cfg.ini'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">host = config.get(<span class="string">'redis'</span>, <span class="string">'host'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件的修改和写入"><a href="#配置文件的修改和写入" class="headerlink" title="配置文件的修改和写入"></a>配置文件的修改和写入</h4><ul>
+<li><code>add-section(section)</code> 添加一个新的section</li>
+<li><code>has_section(section)</code> 判断section是否存在</li>
+<li><code>set(section, option, value)</code> 对section中的option进行设置</li>
+<li><code>remove_section(section)</code> 删除一个section</li>
+<li><code>remove_option(section, option)</code> 删除section中的option</li>
+<li><code>write(file_obj)</code> 将内容写入配置文件</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> configparser</span><br><span class="line">config = configparser.ConfigParser()</span><br><span class="line">config.add_section(<span class="string">'user'</span>)</span><br><span class="line">config.set(<span class="string">'user'</span>, <span class="string">'abc'</span>, <span class="string">'123'</span>)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'cfg.ini'</span>, <span class="string">'w+'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    config.write(f)</span><br></pre></td></tr></table></figure>
+<div class="tip"><br>    使用write写入配置项时，配置文件的空行和注释行都会被去掉。<br></div></div><div class="post-tag"><a href="/tags/python/">#python</a></div></article></div></main><footer><div class="paginator"><a href="/2019/02/15/python单例模式/" class="prev">PREV</a><a href="/2019/02/13/git学习笔记/" class="next">NEXT</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

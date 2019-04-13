@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Java环境变量配置 · zijian's blog</title><meta name="description" content="Java环境变量配置 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Java环境变量配置</h1><div class="post-info">May 18, 2016</div><div class="post-content"><h2 id="windows系统"><a href="#windows系统" class="headerlink" title="windows系统"></a>windows系统</h2><p>首先，在完成JDK的安装之后，<br>打开计算机  -&gt; 属性 -&gt;高级系统变量 -&gt; 环境变量  （一切操作都在下面的系统变量栏）</p>
+<ol>
+<li><p>新建<br> 变量名：<em>JAVA_HOME</em><br> 变量值：<strong>C:\Program Files\Java\jdk1.7.0_07</strong><br> Java安装路径视个人情况而定</p>
+</li>
+<li><p>新建<br> 变量名：<em>CLASSPATH</em><br> 变量值：<strong>.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;</strong><br> 注意：前面的 .; 不要漏掉</p>
+</li>
+<li><p>选择 Path ,编辑<br> <strong>%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;</strong><br> 将以上代码加入Path变量中，如果加在变量值的最前面，应注意以.;开头；<br> 注意不能轻易修改原本已有的内容。</p>
+</li>
+<li><p>验证环境变量是否配置成功<br> 使用快捷键 win + R , 输入 cmd<br> a. 输入 <em>java</em><br> b. 输入 <em>javac</em><br> c. 输入 <em>java -version</em></p>
+</li>
+</ol>
+<p>至此，windows系统下的环境变量配置完成。</p>
+<h2 id="linux系统"><a href="#linux系统" class="headerlink" title="linux系统"></a>linux系统</h2><p>如果系统已经安装了原声的OpenJDK,可通过以下方法卸载。</p>
+<ol>
+<li><p>查看openjdk版本号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa|grep java</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除对应版本名称，如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64</span><br><span class="line">rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="1-6版本的安装包"><a href="#1-6版本的安装包" class="headerlink" title="1.6版本的安装包"></a>1.6版本的安装包</h4><ol>
+<li>下载jdk1.6,如： jdk-6u45-linux-x64.bin</li>
+<li><p>赋予安装包执行权限。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x jdk-6u45-linux-x64.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开始安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./jdk-6u45-linux-x64.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置环境变量<br><code>vim /etc/profile</code><br>在文件末尾添加以下配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/java/jdk1.6.0_45</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar  </span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行<code>source /etc/profile</code> 使配置立即生效</p>
+</li>
+</ol>
+<h4 id="1-8免安装版本"><a href="#1-8免安装版本" class="headerlink" title="1.8免安装版本"></a>1.8免安装版本</h4><p>免安装版本可直接解压，然后配置环境变量</p>
+<p><strong>linux解压命令：</strong><br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar –xvf file.tar         // 解压 tar包  </span><br><span class="line">tar -zxvf file.tar.gz     // 解压tar.gz  </span><br><span class="line">tar -jxvf file.tar.bz2    // 解压 tar.bz2</span><br></pre></td></tr></table></figure></p>
+<p>环境变量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/java/jdk1.8.0_171</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib:<span class="variable">$CLASSPATH</span></span><br><span class="line"><span class="built_in">export</span> JAVA_PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$&#123;JRE_HOME&#125;</span>/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$&#123;JAVA_PATH&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>执行<code>source /etc/profile</code></p>
+<p>以上是windows和linux不同操作系统下配置java环境变量的方法。</p>
+<h4 id="Open-JDK和Sun-JDK的区别"><a href="#Open-JDK和Sun-JDK的区别" class="headerlink" title="Open JDK和Sun JDK的区别"></a>Open JDK和Sun JDK的区别</h4><p>openjdk是jdk的开放原始码版本，以GPL协议的形式放出。<br>在JDK7的时候，openjdk已经成为jdk7的主干开发。<br>sun jdk7是在openjdk7的基础上发布的，其大部分原始码都相同，只有少部分原始码被替换掉。使用JRL(JavaResearch License，Java研究授权协议)发布。 </p>
+<p>关于JDK和OpenJDK的区别，可以归纳为以下几点： </p>
+<ol>
+<li><p>授权协议的不同：<br> openjdk采用GPL V2协议放出，而JDK则采用JRL放出。两者协议虽然都是开放源代码的，但是在使用上的不同在于GPL V2允许在商业上使用，而JRL只允许个人研究使用。</p>
+</li>
+<li><p>OpenJDK不包含Deployment（部署）功能：<br> 部署的功能包括：Browser Plugin、Java Web Start、以及Java控制面板，这些功能在Openjdk中是找不到的。</p>
+</li>
+<li><p>OpenJDK源代码不完整：<br> 在采用GPL协议的Openjdk中，sun jdk的一部分源代码因为产权的问题无法开放openjdk使用，其中最主要的部份就是JMX中的可选元件SNMP部份的代码。因此这些不能开放的源代码 将它作成plug，以供OpenJDK编译时使用，你也可以选择不要使用plug。而Icedtea则为这些不完整的部分开发了相同功能的源代码 (OpenJDK6)，促使OpenJDK更加完整。</p>
+</li>
+<li><p>部分源代码用开源代码替换：<br> 由于产权的问题，很多产权不是SUN的源代码被替换成一些功能相同的开源代码，比如说字体栅格化引擎，使用Free Type代替。</p>
+</li>
+<li><p>openjdk只包含最精简的JDK：<br> OpenJDK不包含其他的软件包，比如Rhino Java DB JAXP……，并且可以分离的软件包也都是尽量的分离，但是这大多数都是自由软件，你可以自己下载加入。</p>
+</li>
+<li><p>不能使用Java商标：<br> 在安装openjdk的机器上，输入“java -version”显示的是openjdk，但是如果是使用Icedtea补丁的openjdk，显示的是java。</p>
+</li>
+</ol>
+</div><div class="post-tag"><a href="/tags/java/">#java</a></div></article></div></main><footer><div class="paginator"><a href="/2016/05/31/Java中“-”和equals的区别/" class="prev">PREV</a><a href="/2016/05/18/Java中间件之RMI及实例介绍/" class="next">NEXT</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

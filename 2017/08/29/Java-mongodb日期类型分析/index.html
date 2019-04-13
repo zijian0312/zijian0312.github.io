@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Java-mongodb日期类型分析 · zijian's blog</title><meta name="description" content="Java-mongodb日期类型分析 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Java-mongodb日期类型分析</h1><div class="post-info">Aug 29, 2017</div><div class="post-content"><p>Java Date类型的日期在保存到mongoDB时，<br>mongodb的java driver会将其自动转换为标准时间GMT（格林尼治时间）。</p>
+<blockquote>
+<p>CST时间等于GMT时间加上8个小时。</p>
+</blockquote>
+<p>使用Java获取的CST时间China Standard Time，所以会出现8个小时的差值。<br>而使用JavaScipt获取的CST时间是Central Standard Time（美国中部时间）。</p>
+<blockquote>
+<p>美国中部时间和GMT时间相差6个小时。</p>
+</blockquote>
+<ul>
+<li>Central Standard Time (USA) UT-6:00</li>
+<li>Central Standard Time (Australia) UT+9:30</li>
+<li>China Standard Time UT+8:00</li>
+<li>Cuba Standard Time UT-4:00</li>
+</ul>
+<div class="tip"><br>    为避免错误，编程过程中尽量采用GMT时间。<br></div>
+
+<p>Java将Date的时区设置为GMT:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TimeZone.setDefault(TimeZone.getTimeZone(<span class="string">"GMT"</span>));</span><br></pre></td></tr></table></figure>
+</div><div class="post-tag"><a href="/tags/java/">#java</a><a href="/tags/mongo/">#mongo</a></div></article></div></main><footer><div class="paginator"><a href="/2017/09/19/python图像处理学习笔记/" class="prev">PREV</a><a href="/2016/06/09/文件夹中所有文件名称的修改及输出/" class="next">NEXT</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

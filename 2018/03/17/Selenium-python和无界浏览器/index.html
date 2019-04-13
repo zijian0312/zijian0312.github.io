@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Selenium-python和无界浏览器 · zijian's blog</title><meta name="description" content="Selenium-python和无界浏览器 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Selenium-python和无界浏览器</h1><div class="post-info">Mar 17, 2018</div><div class="post-content"><h1 id="Selenium发展史"><a href="#Selenium发展史" class="headerlink" title="Selenium发展史"></a>Selenium发展史</h1><p>Selenium发起于2004年，当时的Selenium是用JavaScript编写的用于验证浏览器行为的JS类库。<br>这个类库名称叫Selenium core，同时也是seleniumRC、Selenium IDE的核心组件。</p>
+<p>当时QTP mercury是主流的商业自动化工具，mercury代表化学元素汞,而Selenium代表化学元素硒(xi)，<br>硒可以对抗汞。</p>
+<h4 id="Selenium-1-0"><a href="#Selenium-1-0" class="headerlink" title="Selenium 1.0"></a>Selenium 1.0</h4><blockquote>
+<p><strong>Selenium 1.0 = Selenium IDE + Selenium Grid + Selenium RC</strong></p>
+</blockquote>
+<p><strong>Selenium IDE</strong><br>Selenium IDE是嵌入到Firefox浏览器中的一个插件，实现简单的浏览器操作的录制与回放功能。</p>
+<p><strong>Selenium Grid</strong><br>Selenium Grid是一种自动化的测试辅助工具，利用Grid可以很方便地实现在多台机器上和异构环境中运行测试用例。</p>
+<p><strong>Selenium RC</strong><br>Selenium RC分为Client Libraries和Selenium Server。<br>Client Libraries库主要用于编写测试脚本，用来控制Selenium Server的库。<br>Selenium Server负责控制浏览器行为。</p>
+<p>Selenium RC 是在浏览器中运行JavaScript应用，使用浏览器内置的JavaScript翻译器来翻译和执行selenese命令（selenese是Selenium命令集合）。</p>
+<p>WebDriver是通过原生浏览器支持或者浏览器扩展来直接控制浏览器。WebDriver针对各个浏览器而开发，取代了嵌入到被测Web应用中的JavaScript，与浏览器紧密集成，因此支持创建更高级的测试，避免了JavaScript安全模型导致的限制。除了来自浏览器厂商的支持之外，WebDriver还利用操作系统级的调用，模拟用户输入。</p>
+<p>Selenium与WebDriver合并原因:<br>部分原因是WebDriver解决了Selenium存在的缺点（例如能够绕过JavaScript沙箱，我们有出色的API），部分原因是Selenium解决了WebDriver存在的问题（例如支持广泛的浏览器），部分原因是因为Selenium的主要贡献者和我都觉得合并项目是为用户提供最优秀框架的最佳途径。</p>
+<h4 id="Selenium-2-0"><a href="#Selenium-2-0" class="headerlink" title="Selenium 2.0"></a>Selenium 2.0</h4><blockquote>
+<p><strong>Selenium 2.0 = Selenium 1.0 + WebDriver</strong></p>
+</blockquote>
+<p>在Selenium 2.0中主推的是WebDriver，可以将其看作Selenium RC的替代品。因为Selenium为了保持向下的兼容性，所以在Selenium 2.0中并没有彻底地抛弃Selenium RC。</p>
+<h4 id="Selenium-3-0"><a href="#Selenium-3-0" class="headerlink" title="Selenium 3.0"></a>Selenium 3.0</h4><blockquote>
+<p><strong>Selenium 3.0 = Selenium 2.0 - Selenium RC（Remote Control）</strong></p>
+</blockquote>
+<ol>
+<li>Selenium3.0只支持Java8版本以上。</li>
+<li>Selenium3.0中的Firefox浏览器驱动独立了，以前装完selenium2就可以驱动Firefox浏览器了，现在和Chrome一样，必须下载和设置浏览器驱动。</li>
+<li>MAC OS 集成Safari的浏览器驱动。默认在/usr/bin/safaridriver 目录下。</li>
+<li>只支持IE 9.0版本以上。</li>
+</ol>
+<h1 id="Selenium-安装与测试"><a href="#Selenium-安装与测试" class="headerlink" title="Selenium 安装与测试"></a>Selenium 安装与测试</h1><p>在<code>python</code>开发环境中安装<code>selenium</code>模块，可直接在<code>CMD</code>中执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selinium</span><br></pre></td></tr></table></figure>
+<p>第二步，下载浏览器驱动<code>webdriver</code></p>
+<p>各浏览器驱动下载地址：</p>
+<ul>
+<li><p>Chrome浏览器驱动： <a href="https://sites.google.com/a/chromium.org/chromedriver/home" target="_blank" rel="noopener">chromedriver(科学上网)</a> &nbsp;&nbsp;  <a href="https://npm.taobao.org/mirrors/chromedriver" target="_blank" rel="noopener">taobao备用地址</a></p>
+</li>
+<li><p>Firefox浏览器驱动： <a href="https://github.com/mozilla/geckodriver/releases" target="_blank" rel="noopener">geckodriver</a></p>
+</li>
+<li><p>IE浏览器驱动： <a href="http://selenium-release.storage.googleapis.com/index.html" target="_blank" rel="noopener">IEDriverServer</a></p>
+</li>
+<li><p>Edge浏览器驱动： <a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver" target="_blank" rel="noopener">MicrosoftWebDriver</a></p>
+</li>
+<li><p>Opera浏览器驱动： <a href="https://github.com/operasoftware/operachromiumdriver/releases" target="_blank" rel="noopener">operadriver</a></p>
+</li>
+<li><p>PhantomJS： <a href="http://phantomjs.org/" target="_blank" rel="noopener">phantomjs</a></p>
+</li>
+</ul>
+<p>设置浏览器驱动： 将driver所在目录添加到Path环境变量中<br>或者，直接在程序中指定driver所在位置。</p>
+<h4 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line"><span class="comment"># driver = webdriver.Chrome('C:\driver\chromedriver.exe')</span></span><br><span class="line">driver.get(<span class="string">'https://www.baidu.com'</span>)</span><br><span class="line"></span><br><span class="line">print(driver.title)</span><br><span class="line"></span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure>
+<h1 id="WebDriver-API"><a href="#WebDriver-API" class="headerlink" title="WebDriver API"></a>WebDriver API</h1><h4 id="元素定位"><a href="#元素定位" class="headerlink" title="元素定位"></a>元素定位</h4><p>WebDriver提供了9中定位方式</p>
+<ul>
+<li><code>find_element_by_id()</code>: 通过id定位</li>
+<li><code>find_element_by_name()</code>: 通过name属性定位:</li>
+<li><code>find_element_by_class_name()</code>: 通过class name定位</li>
+<li><code>find_element_by_tag_name</code>: 通过标签名定位</li>
+<li><code>find_element_by_link_text()</code>: 通过link文本定位</li>
+<li><code>find_element_by_partial_link_text</code>: 通过部分link文本定位</li>
+<li><code>find_element_by_xpath</code>: 通过xpath定位</li>
+<li><code>find_element_by_css_selector</code>: 通过css选择器定位</li>
+</ul>
+<div class="tip"><br>    如果要定位一组元素，可将<code>element</code>改为<code>elements</code><br></div>
+
+<p>还有一种方式是统一调用find_element()方法，通过By来声明定位的方法。<br>例如：</p>
+<p><code>find_element(By.ID, &#39;kw&#39;)</code></p>
+<p>By包含一下定位策略：</p>
+<ul>
+<li>By.ID</li>
+<li>By.NAME</li>
+<li>By.CLASS_NAME</li>
+<li>By.TAG_NAME</li>
+<li>By.LINK_TEXT</li>
+<li>By.PARTIAL_LINK</li>
+<li>By.XPATH</li>
+<li>By.CSS_SELECTOR</li>
+</ul>
+<p>在使用By之前需要将By类导入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br></pre></td></tr></table></figure>
+<h4 id="控制浏览器"><a href="#控制浏览器" class="headerlink" title="控制浏览器"></a>控制浏览器</h4><p><strong>控制浏览器大小</strong><br>将浏览器设置成移动端大小（480 * 800）</p>
+<p><code>driver.set_window_size(480, 800)</code></p>
+<p>将浏览器设置成全屏展示</p>
+<p><code>driver.maximize_window()</code></p>
+<p><strong>控制浏览器后退、前进</strong></p>
+<p><code>driver.back()</code></p>
+<p><code>driver.forward()</code></p>
+<p><strong>控制浏览器刷新</strong></p>
+<p><code>driver.refresh()</code></p>
+<h4 id="简单元素操作"><a href="#简单元素操作" class="headerlink" title="简单元素操作"></a>简单元素操作</h4><ul>
+<li>clear()  清除文本</li>
+<li>send_keys(value)  模拟按键输入</li>
+<li><p>click()  单击元素</p>
+</li>
+<li><p>submit()  提交</p>
+</li>
+</ul>
+<p><code>submit()</code>方法用于提交表单，例如在搜索框输入关键字后，可通过该方式模拟。</p>
+<p><strong>其他常用方法和属性</strong></p>
+<ul>
+<li>size  返回元素的尺寸</li>
+<li>text  获取元素的文本</li>
+<li>get_attribute(name)  获取属性值</li>
+<li>is_displayed()  判断该元素是否用户可见</li>
+</ul>
+<h4 id="鼠标和键盘事件"><a href="#鼠标和键盘事件" class="headerlink" title="鼠标和键盘事件"></a>鼠标和键盘事件</h4><p><strong>鼠标事件</strong><br>关于鼠标操作方法由<code>ActionChains</code>类提供。</p>
+<p>ActionChains类常用方法：</p>
+<ul>
+<li>contenxt_click() 右击</li>
+<li>double_click()  双击</li>
+<li>drag_and_drop()  拖放</li>
+<li>move_to_element()  悬停</li>
+<li>perform()  执行</li>
+</ul>
+<p>导入鼠标操作的ActionChains类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver <span class="keyword">import</span> ActionChains</span><br></pre></td></tr></table></figure>
+<p>使用方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ActionChains(driver).context_click(element_name).perform()</span><br><span class="line">ActionChains(driver).double_click(element_name).perform()</span><br><span class="line">ActionChains(driver).drag_and_drop(element_name).perform()</span><br><span class="line">ActionChains(driver).move_to_element(element, target_element).perform()</span><br></pre></td></tr></table></figure>
+<p><strong>键盘事件</strong></p>
+<p>send_keys()方法除了输入文本信息外，还可以模拟按键输入。</p>
+<p>引入Keys模块：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.key <span class="keyword">import</span> keys</span><br><span class="line"></span><br><span class="line">element.send_keys(Keys.BACK_SPACE) <span class="comment"># 输入退格键</span></span><br><span class="line">element.send_keys(Keys.SPACE) <span class="comment"># 输入空格键</span></span><br><span class="line">element.send_keys(Keys.CONTROL, <span class="string">'a'</span>) <span class="comment"># 全选</span></span><br><span class="line">element.send_keys(Keys.ENTER) <span class="comment"># 回车</span></span><br></pre></td></tr></table></figure>
+<h4 id="获取页面属性"><a href="#获取页面属性" class="headerlink" title="获取页面属性"></a>获取页面属性</h4><p>获取当前页面title</p>
+<p><code>title = driver.title</code></p>
+<p>获取当前页面URL</p>
+<p><code>url = driver.current_url</code></p>
+<p>获取当前页面的源代码</p>
+<p><code>text = driver.page_source</code></p>
+<h4 id="设置元素等待"><a href="#设置元素等待" class="headerlink" title="设置元素等待"></a>设置元素等待</h4><p><strong>显示等待</strong><br>WebDriver等待某个条件成立时继续执行，否则在达到最大等待时长后抛出异常。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">element = WebDriverWait(driver, <span class="number">5</span>, <span class="number">0.5</span>).until(EC.presence_of_element_located(By.ID, <span class="string">'id'</span>))</span><br></pre></td></tr></table></figure>
+<p>WebDriverWait类是由WebDriver提供的等待方法。<br>在设置的时间内，默认每隔一段时间检测预期条件是否满足。如果超出设置时间就抛出异常。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebDriverWait(driver, timeout, poll_frequency=<span class="number">0.5</span>, ignored_exceptions=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<p><code>ignored_exceptions</code>为超时后的异常信息，默认情况下抛出NoSuchElementException异常。</p>
+<p>WebDriverWait()一般与until()或until_not()配合使用。</p>
+<p>WebDriverWait()引入方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br></pre></td></tr></table></figure>
+<p>上面实例代码中 <code>EC</code> 为 <code>expected_conditions</code> 的重命名。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br></pre></td></tr></table></figure>
+<p>expected_conditions类提供的预期条件有：</p>
+<ul>
+<li><code>title_is</code>: 当前页面的标题是否等于预期</li>
+<li><code>title_contains</code>: 当前页面的标题是否包含预期字符串</li>
+<li><code>presence_of_element_located</code>: 判断元素是否在DOM树中</li>
+<li><code>visibility_of_element_located</code>: 判断元素是否可见</li>
+<li><code>visibility_of</code>: 与上面方法的作用相同，但是参数不同。上一个方法参数为定位，该方法为元素</li>
+<li><code>presence_of_all_elements_located</code>: 判断是否至少有一个元素存在于DOM树中</li>
+<li><code>text_to_be_present_in_element</code>: 判断某个元素的text中是否包含了预期字符串</li>
+<li><code>text_to_be_present_in_element_value</code>: 判断某个元素的value属性中是否包含了预期字符串</li>
+<li><code>frame_to_be_available_and_switch_to_it</code>: 判断该表单是否可以切换进去，如果可以则切换进去，并返回True</li>
+<li><code>invisibility_of_element_located</code>: 判断某个元素是否不存在于DOM树或不可见</li>
+<li><code>element_to_be_clickable</code>: 判断元素是否可见且可点击的</li>
+<li><code>staleness_of</code>: 等到一个元素从DOM树中移除</li>
+<li><code>element_to_be_selected</code>: 判断某个元素是否被选中，一般用于下拉列表</li>
+<li><code>element_selection_state_to_be</code>: 判断某个元素的选中状态是否符合预期</li>
+<li><code>element_located_selection_state_to_be</code>: 与上一方法作用相同。上一方法参数为元素，该方法为定位</li>
+<li><code>alert_is_present</code>: 判断页面是否存在alert</li>
+</ul>
+<p><strong>隐式等待</strong><br>隐式等待通过一定的时长等待页面某元素加载完成。超时则抛出NoSuchElementException异常。<br>WebDriver通过 <code>implicitly_wait()</code> 来实现隐式等待，默认设置为0。 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置隐式等待为10秒</span></span><br><span class="line">driver.implicitly_wait(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>隐式等待时间不是一个固定等待时间，当程序执行到某个元素定位时，如果元素可以定位，则继续执行，如果超时隐式等待时间还没有定位到元素，则抛出异常。</p>
+<div class="tip"><br>    隐式等待对整个WebDriver周期都起作用，所以只需设置一次。<br></div>
+
+<p><strong>强制等待</strong><br>强制等待可time模块的sleep()方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 休眠2s</span></span><br><span class="line">time.sleep(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="操作Cookie"><a href="#操作Cookie" class="headerlink" title="操作Cookie"></a>操作Cookie</h4><p>WebDriver提供了可读取、添加和删除cookie的方法。</p>
+<ul>
+<li><code>get_cookies()</code>: 获取所有cookie信息</li>
+<li><code>get_cookie(name)</code>: 获取指定cookie信息</li>
+<li><code>add_cookie(cookie_dict)</code>: 添加cookie，参数cookie必须有name和value值</li>
+<li><code>delete_cookie(name, optionString)</code>: 删除cookie信息，optionString可以为“路径”或“域”</li>
+<li><code>delete_all_cookies()</code>: 删除所有cookie信息</li>
+</ul>
+<h4 id="警告框处理"><a href="#警告框处理" class="headerlink" title="警告框处理"></a>警告框处理</h4><p>对于页面中的alert、confirm以及prompt，<br>可使用 <code>switch_to_alert()</code> 方法定位到 alert/confirm/prompt,<br>然后使用下面的方法进行操作：</p>
+<ul>
+<li><code>text</code>: 返回alert/confirm/prompt 中的文本信息</li>
+<li><code>accept()</code>: 接受现有警告框</li>
+<li><code>dismiss()</code>: 解除所有警告框</li>
+<li><code>send_keys(text)</code>: 发送文本至警告框</li>
+</ul>
+<h4 id="调用JavaScript"><a href="#调用JavaScript" class="headerlink" title="调用JavaScript"></a>调用JavaScript</h4><p>WebDriver提供了 <code>execute_script()</code> 方法来执行JavaScript代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">js = <span class="string">"window.scrollTo(100, 450)"</span></span><br><span class="line">driver.execute_script(js)</span><br></pre></td></tr></table></figure>
+<p><strong>处理HTML5的视频播放</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先获取video元素</span></span><br><span class="line">video = driver.find_element_by_xpath(<span class="string">"body/Setion[1]/div/videio"</span>)</span><br><span class="line"><span class="comment"># 返回播放文件地址</span></span><br><span class="line">url = driver.execute_script(<span class="string">"return arguments[0].currentSrc"</span>, video)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 播放视频</span></span><br><span class="line">driver.execute_script(<span class="string">"return arguments[0].play()"</span>, video)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂停视频</span></span><br><span class="line">driver.execute_script(<span class="string">"return arguments[0].play()"</span>, video)</span><br></pre></td></tr></table></figure>
+<p>JavaScript 函数有个内置对象arguments，该对象包含了函数调用的参数数组。<br>currentSrc 返回当前音频/视频的 URL，如果为设置，则返回空字符串。<br>load()、 play()、 pause() 控制视频的加载、播放和暂停。</p>
+<h4 id="窗口截图"><a href="#窗口截图" class="headerlink" title="窗口截图"></a>窗口截图</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 截取当前窗口，并指定图片的保存位置</span></span><br><span class="line">driver.get_screenshot_as_file(<span class="string">"D:\\screenshot.jpg"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="关闭窗口"><a href="#关闭窗口" class="headerlink" title="关闭窗口"></a>关闭窗口</h4><p>quit()方法一般用于退出驱动程序和关闭所有窗口。</p>
+<p>而<code>close()</code>方法可以用来关闭当前窗口。</p>
+<h1 id="浏览器设置"><a href="#浏览器设置" class="headerlink" title="浏览器设置"></a>浏览器设置</h1><p>设置chrome为无界面模式<br>禁止加载图片<br>添加代理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">options = webdriver.ChromeOptions()</span><br><span class="line"><span class="comment"># options.set_headless()</span></span><br><span class="line">options.add_argument(<span class="string">'--headless'</span>)</span><br><span class="line">options.add_argument(<span class="string">'--disable-gpu'</span>) <span class="comment"># 禁用GPU加速</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁止加载图片</span></span><br><span class="line">prefs = &#123;<span class="string">"profile.managed_default_content_settings.images"</span>: <span class="number">2</span>&#125;</span><br><span class="line">options.add_experimental_option(<span class="string">"prefs"</span>, prefs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加代理</span></span><br><span class="line">desired_capabilities = options.to_capabilities()</span><br><span class="line">desired_capabilities[<span class="string">'proxy'</span>] = &#123;</span><br><span class="line">    <span class="string">"httpProxy"</span>: proxy,</span><br><span class="line">    <span class="string">"ftpProxy"</span>: proxy,</span><br><span class="line">    <span class="string">"sslProxy"</span>: proxy,</span><br><span class="line">    <span class="string">"noProxy"</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">"proxyType"</span>: <span class="string">"MANUAL"</span>,</span><br><span class="line">    <span class="string">"class"</span>: <span class="string">"org.openqa.selenium.Proxy"</span>,</span><br><span class="line">    <span class="string">"autodetect"</span>: <span class="literal">False</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome(chrome_options=options, desired_capabilities= desired_capabilities)</span><br></pre></td></tr></table></figure>
+<p>链接： <a href="http://selenium-python-zh.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Selenium-Python中文文档</a></p>
+</div><div class="post-tag"><a href="/tags/selenium/">#selenium</a><a href="/tags/python/">#python</a></div></article></div></main><footer><div class="paginator"><a href="/2018/03/25/魔方教程/" class="prev">PREV</a><a href="/2018/01/14/Java集合类总结/" class="next">NEXT</a></div><div class="copyright"><p>© 2016 - 2019 <a href="https://www.4cyaw.com">zijian</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
