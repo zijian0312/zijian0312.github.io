@@ -10,6 +10,7 @@
 </li>
 </ol>
 <p>至此，windows系统下的环境变量配置完成。</p>
+<h4 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h4><p>win10系统安装JDK8时，按照上面的步骤配置好环境变量后，<br>输入 <em>javac</em> 显示 <strong>‘javac’不是内部或外部命令 …</strong><br><strong>问题排查：</strong><br>进入cmd,输入 PATH 命令，发现jdk和jre的bin路径都带上了引号，<br>然后将添加到Path的环境变量分为两截，即：<br><strong>%JAVA_HOME%\bin</strong><br><strong>%JAVA_HOME%\jre\bin</strong><br>再次测试，问题解决。</p>
 <h2 id="linux系统"><a href="#linux系统" class="headerlink" title="linux系统"></a>linux系统</h2><p>如果系统已经安装了原声的OpenJDK,可通过以下方法卸载。</p>
 <ol>
 <li><p>查看openjdk版本号</p>
