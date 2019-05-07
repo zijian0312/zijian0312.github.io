@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 文件夹中所有文件名称的修改及输出 · zijian's blog</title><meta name="description" content="文件夹中所有文件名称的修改及输出 - zijian"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"><link rel="search" type="application/opensearchdescription+xml" href="https://www.4cyaw.com/atom.xml" title="zijian's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/tags/" target="_self" class="nav-list-link">TAG</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">文件夹中所有文件名称的修改及输出</h1><div class="post-info">Jun 9, 2016</div><div class="post-content"><h1 id="使用背景"><a href="#使用背景" class="headerlink" title="使用背景"></a>使用背景</h1><p>我有一个文件夹，里面有几十首歌曲，我想给每首歌曲的名称前加个数字如：<br>&emsp;&emsp;001_邓紫棋-喜欢你.flac<br>&emsp;&emsp;002_GALA-追梦赤子心.flac<br>&emsp;&emsp;……<br>然后再输出到一个txt文档内（或者Excel）。</p>
 <h1 id="方法步骤"><a href="#方法步骤" class="headerlink" title="方法步骤"></a>方法步骤</h1><h4 id="修改文件名称"><a href="#修改文件名称" class="headerlink" title="修改文件名称"></a>修改文件名称</h4><ol>
 <li><p>下载一个小软件<strong>Replace Pioneer</strong></p>
-<p> <img src="https://studentssolano-my.sharepoint.com/personal/slew3_students_solano_edu/_layouts/15/download.aspx?share=EW38MZL28lVGpwILbJtXSq8BOECBIcsXRs-28T1LywBKdw&amp;ext=.png" alt="Replace Pioneer图标"></p>
+<p> <img src="http://150.109.112.59:8000/images/2019/05/07/rpico.png" alt="Replace Pioneer图标"></p>
 </li>
 <li><p>安装完成后打开软件，找到 <code>Tools -&gt; Batch Runner</code></p>
 </li>
@@ -13,7 +13,7 @@
 <h4 id="输出文件名称"><a href="#输出文件名称" class="headerlink" title="输出文件名称"></a>输出文件名称</h4><p>要将该文件夹内所有歌曲名称以列表形式显示到txt文本文档中。只需要用到 <code>DOS</code> 命令。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir I: \folder /b &gt; I:\folder\list.txt</span><br></pre></td></tr></table></figure>
 <p><code>I</code> 为盘符名称<br><code>folder</code> 为文件夹名称<br><code>/b</code> 表示只显示文件的名称，不显示创建日期和文件大小<br><code>list.txt</code> 为生成的列表文件，如果要生成<code>excel</code>文件，可直接修改后缀为<code>.xls</code></p>
-<p><img src="https://studentssolano-my.sharepoint.com/personal/slew3_students_solano_edu/_layouts/15/download.aspx?share=EVne1TUcmOBLv4fag_IVhuMB3cr9QEpVwMF5ZpMl--FNBw&amp;ext=.png" alt="歌曲列表文件"></p>
+<p><img src="http://150.109.112.59:8000/images/2019/05/07/musiclist.png" alt="歌曲列表文件"></p>
 </div><div class="post-tag"><a href="/tags/工具/">#工具</a></div></article></div></main><footer><div class="paginator"><a href="/2017/08/29/Java-mongodb日期类型分析/" class="prev">PREV</a><a href="/2016/05/31/Math类的常用方法/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '4cyaw';
 var disqus_identifier = '2016/06/09/文件夹中所有文件名称的修改及输出/';
 var disqus_title = '文件夹中所有文件名称的修改及输出';
